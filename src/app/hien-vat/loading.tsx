@@ -1,4 +1,4 @@
-import PublicLayout from '@/src/components/PublicLayout';
+import PublicLayout from '@/components/PublicLayout';
 
 export default function ArtifactsLoading() {
   return (

@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import PublicLayout from '@/src/components/PublicLayout';
-import { getPublishedGroupSchedules } from '@/src/lib/data';
+import PublicLayout from '@/components/PublicLayout';
+import { getPublishedGroupSchedules } from '@/lib/data';
 import { CalendarDays, MapPin, Users } from 'lucide-react';
 
 function formatDate(date: string | null) {

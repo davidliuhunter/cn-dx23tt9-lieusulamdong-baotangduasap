@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAllContactMessages } from '@/src/lib/data';
-import { markMessageRead } from '@/src/lib/actions';
-import type { ContactMessage } from '@/src/lib/types';
+import { getAllContactMessages } from '@/lib/data';
+import { markMessageRead } from '@/lib/actions';
+import type { ContactMessage } from '@/lib/types';
 import { X, ChevronRight, Mail } from 'lucide-react';
 
 export default function AdminMessagesPage() {

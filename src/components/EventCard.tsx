@@ -1,4 +1,4 @@
-import type { EventItem } from '@/src/lib/types';
+import type { EventItem } from '@/lib/types';
 import ImagePlaceholder from './ImagePlaceholder';
 import { CalendarDays, MapPin } from 'lucide-react';
 

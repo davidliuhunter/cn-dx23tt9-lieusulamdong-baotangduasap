@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { submitTourBooking } from '@/src/lib/actions';
-import type { MuseumRoom } from '@/src/lib/types';
+import { submitTourBooking } from '@/lib/actions';
+import type { MuseumRoom } from '@/lib/types';
 
 type Props = {
   rooms: MuseumRoom[];

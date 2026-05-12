@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAllEvents } from '@/src/lib/data';
-import { saveEvent, deleteEvent } from '@/src/lib/actions';
-import type { EventItem } from '@/src/lib/types';
+import { getAllEvents } from '@/lib/data';
+import { saveEvent, deleteEvent } from '@/lib/actions';
+import type { EventItem } from '@/lib/types';
 import { X } from 'lucide-react';
 
 const EMPTY: Partial<EventItem> = {};

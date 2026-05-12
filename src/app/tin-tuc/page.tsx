@@ -1,6 +1,6 @@
-import PublicLayout from '@/src/components/PublicLayout';
-import ArticleCard from '@/src/components/ArticleCard';
-import { getPublishedArticlesByType } from '@/src/lib/data';
+import PublicLayout from '@/components/PublicLayout';
+import ArticleCard from '@/components/ArticleCard';
+import { getPublishedArticlesByType } from '@/lib/data';
 import { Newspaper } from 'lucide-react';
 
 export default async function NewsPage() {

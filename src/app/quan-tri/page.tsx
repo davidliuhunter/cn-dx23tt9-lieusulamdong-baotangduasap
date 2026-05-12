@@ -3,8 +3,8 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getAllArtifacts, getAllArticles, getAllEvents, getAllContactMessages, getTopViewedArtifacts, getRooms, getAllGroupSchedules, getAllTourBookings } from '@/src/lib/data';
-import type { Artifact } from '@/src/lib/types';
+import { getAllArtifacts, getAllArticles, getAllEvents, getAllContactMessages, getTopViewedArtifacts, getRooms, getAllGroupSchedules, getAllTourBookings } from '@/lib/data';
+import type { Artifact } from '@/lib/types';
 import { Archive, ScrollText, CalendarCheck, Mail, BarChart2, Zap, Globe, ChevronRight, Building2, Ticket } from 'lucide-react';
 
 export default function AdminOverviewPage() {

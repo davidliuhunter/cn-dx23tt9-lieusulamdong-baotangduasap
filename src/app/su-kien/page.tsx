@@ -1,6 +1,6 @@
-import PublicLayout from '@/src/components/PublicLayout';
-import EventCard from '@/src/components/EventCard';
-import { getPublishedEvents } from '@/src/lib/data';
+import PublicLayout from '@/components/PublicLayout';
+import EventCard from '@/components/EventCard';
+import { getPublishedEvents } from '@/lib/data';
 import { CalendarCheck } from 'lucide-react';
 
 export default async function EventsPage() {

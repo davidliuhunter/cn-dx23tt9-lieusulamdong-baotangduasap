@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import ProgressBar from "@/src/components/ProgressBar";
+import ProgressBar from "@/components/ProgressBar";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],

@@ -1,4 +1,4 @@
-import type { Article } from '@/src/lib/types';
+import type { Article } from '@/lib/types';
 import ImagePlaceholder from './ImagePlaceholder';
 import { ChevronRight } from 'lucide-react';
 

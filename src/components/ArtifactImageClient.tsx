@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Lightbox from '@/src/components/Lightbox';
-import ImagePlaceholder from '@/src/components/ImagePlaceholder';
-import { trackArtifactView } from '@/src/lib/actions';
+import Lightbox from '@/components/Lightbox';
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import { trackArtifactView } from '@/lib/actions';
 import { Search } from 'lucide-react';
 
 interface Props {

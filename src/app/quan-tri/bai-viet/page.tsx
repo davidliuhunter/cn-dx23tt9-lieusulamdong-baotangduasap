@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAllArticles } from '@/src/lib/data';
-import { saveArticle, deleteArticle } from '@/src/lib/actions';
-import ImageUpload from '@/src/components/ImageUpload';
-import RichTextEditor from '@/src/components/RichTextEditor';
-import type { Article } from '@/src/lib/types';
+import { getAllArticles } from '@/lib/data';
+import { saveArticle, deleteArticle } from '@/lib/actions';
+import ImageUpload from '@/components/ImageUpload';
+import RichTextEditor from '@/components/RichTextEditor';
+import type { Article } from '@/lib/types';
 
 const EMPTY: Partial<Article> = {};
 

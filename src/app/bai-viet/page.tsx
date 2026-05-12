@@ -1,6 +1,6 @@
-import PublicLayout from '@/src/components/PublicLayout';
-import ImagePlaceholder from '@/src/components/ImagePlaceholder';
-import { getPublishedArticles } from '@/src/lib/data';
+import PublicLayout from '@/components/PublicLayout';
+import ImagePlaceholder from '@/components/ImagePlaceholder';
+import { getPublishedArticles } from '@/lib/data';
 import { ScrollText } from 'lucide-react';
 import Link from 'next/link';
 
