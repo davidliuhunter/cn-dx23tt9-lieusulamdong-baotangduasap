@@ -1,11 +1,13 @@
 import type { Config } from "tailwindcss";
-import path from "path";
 
 const config: Config = {
   content: [
-    path.join(__dirname, "pages/**/*.{js,ts,jsx,tsx,mdx}"),
-    path.join(__dirname, "components/**/*.{js,ts,jsx,tsx,mdx}"),
-    path.join(__dirname, "app/**/*.{js,ts,jsx,tsx,mdx}"),
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
