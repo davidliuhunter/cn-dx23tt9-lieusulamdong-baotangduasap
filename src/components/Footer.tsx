@@ -51,7 +51,7 @@ export default function Footer() {
 
       <div className="border-t border-amber-900">
         <div className="container-museum py-4 text-center text-amber-500 text-xs">
-          © 2026 Đồ án học phần - Hệ thống website quản lý Bảo tàng Dừa Sáp.
+          © 2026 Đồ án chuyên ngành - Hệ thống website quản lý Bảo tàng Dừa Sáp.
         </div>
       </div>
     </footer>
