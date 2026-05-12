@@ -2,6 +2,7 @@ import PublicLayout from '@/src/components/PublicLayout';
 import ImagePlaceholder from '@/src/components/ImagePlaceholder';
 import { getPublishedArticles } from '@/src/lib/data';
 import { ScrollText } from 'lucide-react';
+import Link from 'next/link';
 
 function formatDate(d: string) {
   return new Date(d).toLocaleDateString('vi-VN', {
@@ -13,6 +14,8 @@ function formatDate(d: string) {
 
 export default async function ArticlesPage() {
   const articles = await getPublishedArticles();
+  const news = articles.filter((article) => article.article_type === 'news');
+  const education = articles.filter((article) => article.article_type === 'education');
 
   return (
     <PublicLayout>
@@ -24,6 +27,24 @@ export default async function ArticlesPage() {
       </div>
 
       <div className="container-museum py-12">
+        <div className="flex flex-wrap gap-3 mb-8">
+          <Link href="/tin-tuc" className="btn-secondary text-sm">Xem chuyên mục Tin tức</Link>
+          <Link href="/giao-duc" className="btn-secondary text-sm">Xem chuyên mục Giáo dục</Link>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4 mb-10">
+          <div className="bg-white border border-amber-100 rounded-2xl p-5">
+            <p className="text-xs uppercase tracking-wide text-amber-500 mb-1">Tin tức</p>
+            <p className="font-serif text-3xl font-bold text-amber-950">{news.length}</p>
+            <p className="text-sm text-amber-700 mt-2">Thông báo, cập nhật sự kiện và hoạt động mới.</p>
+          </div>
+          <div className="bg-white border border-amber-100 rounded-2xl p-5">
+            <p className="text-xs uppercase tracking-wide text-amber-500 mb-1">Giáo dục</p>
+            <p className="font-serif text-3xl font-bold text-amber-950">{education.length}</p>
+            <p className="text-sm text-amber-700 mt-2">Bài kiến thức, học liệu và nghiên cứu về Dừa Sáp.</p>
+          </div>
+        </div>
+
         {articles.length === 0 ? (
           <div className="text-center py-20 text-amber-600">
             <div className="flex justify-center mb-4"><ScrollText className="w-12 h-12 opacity-40" /></div>

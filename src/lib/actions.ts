@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { supabase, isConfigured } from './supabase';
-import type { Artifact, Article, EventItem } from './types';
+import type { Artifact, Article, EventItem, GroupSchedule, MuseumRoom, TourBooking } from './types';
 
 // ─── Image Upload ─────────────────────────────────────────────────────────────
 
@@ -53,6 +53,51 @@ export async function submitContact(formData: FormData) {
 
   if (error) return { success: false, error: 'Không thể gửi tin nhắn. Vui lòng thử lại.' };
   return { success: true };
+}
+
+export async function submitTourBooking(formData: FormData) {
+  const booking_type = (formData.get('booking_type') as string | null)?.trim() as 'ticket' | 'group' | null;
+  const full_name = (formData.get('full_name') as string | null)?.trim();
+  const group_name = (formData.get('group_name') as string | null)?.trim() || null;
+  const email = (formData.get('email') as string | null)?.trim();
+  const phone = (formData.get('phone') as string | null)?.trim() || null;
+  const visit_date = (formData.get('visit_date') as string | null)?.trim() || null;
+  const visit_time = (formData.get('visit_time') as string | null)?.trim() || null;
+  const visitor_count = Number(formData.get('visitor_count') || 0);
+  const room_id = (formData.get('room_id') as string | null)?.trim() || null;
+  const notes = (formData.get('notes') as string | null)?.trim() || null;
+
+  if (!booking_type || !full_name || !email || !visit_date || visitor_count <= 0) {
+    return { success: false, error: 'Vui lòng điền đầy đủ thông tin bắt buộc.' };
+  }
+
+  if (!isConfigured || !supabase) {
+    return { success: true, bookingId: `MOCK-${Date.now()}` };
+  }
+
+  const { data, error } = await supabase
+    .from('tour_bookings')
+    .insert({
+      booking_type,
+      full_name,
+      group_name,
+      email,
+      phone,
+      visit_date,
+      visit_time,
+      visitor_count,
+      room_id,
+      notes,
+      status: 'pending',
+    })
+    .select('id')
+    .single();
+
+  if (error) return { success: false, error: 'Không thể tạo yêu cầu đặt vé. Vui lòng thử lại.' };
+  revalidatePath('/dat-ve');
+  revalidatePath('/lich-tham-quan-theo-doan');
+  revalidatePath('/quan-tri/ve-doan');
+  return { success: true, bookingId: data?.id };
 }
 
 // ─── Artifacts ────────────────────────────────────────────────────────────────
@@ -149,4 +194,73 @@ export async function markMessageRead(id: string) {
 export async function trackArtifactView(id: string) {
   if (!isConfigured || !supabase) return;
   await supabase.rpc('increment_artifact_view', { artifact_id: id });
+}
+
+export async function saveRoom(data: Partial<MuseumRoom> & { id?: string }) {
+  if (!isConfigured || !supabase) return { success: true };
+  const { id, ...rest } = data;
+  let error;
+  if (id) {
+    ({ error } = await supabase.from('rooms').update(rest).eq('id', id));
+  } else {
+    ({ error } = await supabase.from('rooms').insert(rest));
+  }
+  if (error) return { success: false, error: error.message };
+  revalidatePath('/quan-tri/phong');
+  revalidatePath('/');
+  return { success: true };
+}
+
+export async function deleteRoom(id: string) {
+  if (!isConfigured || !supabase) return { success: true };
+  const { error } = await supabase.from('rooms').delete().eq('id', id);
+  if (error) return { success: false, error: error.message };
+  revalidatePath('/quan-tri/phong');
+  return { success: true };
+}
+
+export async function saveGroupSchedule(data: Partial<GroupSchedule> & { id?: string }) {
+  if (!isConfigured || !supabase) return { success: true };
+  const { id, room, ...rest } = data;
+  let error;
+  if (id) {
+    ({ error } = await supabase.from('group_schedules').update(rest).eq('id', id));
+  } else {
+    ({ error } = await supabase.from('group_schedules').insert(rest));
+  }
+  if (error) return { success: false, error: error.message };
+  revalidatePath('/lich-tham-quan-theo-doan');
+  revalidatePath('/quan-tri/ve-doan');
+  return { success: true };
+}
+
+export async function deleteGroupSchedule(id: string) {
+  if (!isConfigured || !supabase) return { success: true };
+  const { error } = await supabase.from('group_schedules').delete().eq('id', id);
+  if (error) return { success: false, error: error.message };
+  revalidatePath('/quan-tri/ve-doan');
+  revalidatePath('/lich-tham-quan-theo-doan');
+  return { success: true };
+}
+
+export async function saveTourBooking(data: Partial<TourBooking> & { id?: string }) {
+  if (!isConfigured || !supabase) return { success: true };
+  const { id, room, ...rest } = data;
+  let error;
+  if (id) {
+    ({ error } = await supabase.from('tour_bookings').update(rest).eq('id', id));
+  } else {
+    ({ error } = await supabase.from('tour_bookings').insert(rest));
+  }
+  if (error) return { success: false, error: error.message };
+  revalidatePath('/quan-tri/ve-doan');
+  return { success: true };
+}
+
+export async function deleteTourBooking(id: string) {
+  if (!isConfigured || !supabase) return { success: true };
+  const { error } = await supabase.from('tour_bookings').delete().eq('id', id);
+  if (error) return { success: false, error: error.message };
+  revalidatePath('/quan-tri/ve-doan');
+  return { success: true };
 }

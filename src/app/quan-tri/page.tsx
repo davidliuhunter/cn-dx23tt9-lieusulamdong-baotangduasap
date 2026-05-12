@@ -3,28 +3,34 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getAllArtifacts, getAllArticles, getAllEvents, getAllContactMessages, getTopViewedArtifacts } from '@/src/lib/data';
+import { getAllArtifacts, getAllArticles, getAllEvents, getAllContactMessages, getTopViewedArtifacts, getRooms, getAllGroupSchedules, getAllTourBookings } from '@/src/lib/data';
 import type { Artifact } from '@/src/lib/types';
-import { Archive, ScrollText, CalendarCheck, Mail, BarChart2, Zap, Globe, ChevronRight } from 'lucide-react';
+import { Archive, ScrollText, CalendarCheck, Mail, BarChart2, Zap, Globe, ChevronRight, Building2, Ticket } from 'lucide-react';
 
 export default function AdminOverviewPage() {
-  const [stats, setStats] = useState({ artifacts: 0, articles: 0, events: 0, messages: 0 });
+  const [stats, setStats] = useState({ artifacts: 0, articles: 0, events: 0, messages: 0, rooms: 0, schedules: 0, bookings: 0 });
   const [topViewed, setTopViewed] = useState<Artifact[]>([]);
 
   useEffect(() => {
     async function load() {
-      const [artifacts, articles, events, msgs, top] = await Promise.all([
+      const [artifacts, articles, events, msgs, top, rooms, schedules, bookings] = await Promise.all([
         getAllArtifacts(),
         getAllArticles(),
         getAllEvents(),
         getAllContactMessages(),
         getTopViewedArtifacts(5),
+        getRooms(),
+        getAllGroupSchedules(),
+        getAllTourBookings(),
       ]);
       setStats({
         artifacts: artifacts.length,
         articles: articles.length,
         events: events.length,
         messages: msgs.length,
+        rooms: rooms.length,
+        schedules: schedules.length,
+        bookings: bookings.length,
       });
       setTopViewed(top);
     }
@@ -35,6 +41,8 @@ export default function AdminOverviewPage() {
     { href: '/quan-tri/hien-vat', icon: <Archive className="w-6 h-6" />, label: 'Hiện vật', count: stats.artifacts, color: 'bg-amber-100 text-amber-800 border-amber-200' },
     { href: '/quan-tri/bai-viet', icon: <ScrollText className="w-6 h-6" />, label: 'Bài viết', count: stats.articles, color: 'bg-blue-50 text-blue-800 border-blue-200' },
     { href: '/quan-tri/su-kien', icon: <CalendarCheck className="w-6 h-6" />, label: 'Sự kiện', count: stats.events, color: 'bg-green-50 text-green-800 border-green-200' },
+    { href: '/quan-tri/phong', icon: <Building2 className="w-6 h-6" />, label: 'Phòng', count: stats.rooms, color: 'bg-orange-50 text-orange-800 border-orange-200' },
+    { href: '/quan-tri/ve-doan', icon: <Ticket className="w-6 h-6" />, label: 'Vé & Đoàn', count: stats.bookings, color: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
     { href: '/quan-tri/tin-nhan', icon: <Mail className="w-6 h-6" />, label: 'Tin nhắn', count: stats.messages, color: 'bg-purple-50 text-purple-800 border-purple-200' },
   ];
 
@@ -94,6 +102,8 @@ export default function AdminOverviewPage() {
           <Link href="/quan-tri/hien-vat" className="btn-primary text-xs">+ Thêm hiện vật</Link>
           <Link href="/quan-tri/bai-viet" className="btn-primary text-xs">+ Viết bài mới</Link>
           <Link href="/quan-tri/su-kien" className="btn-primary text-xs">+ Tạo sự kiện</Link>
+          <Link href="/quan-tri/phong" className="btn-primary text-xs">+ Thêm phòng</Link>
+          <Link href="/quan-tri/ve-doan" className="btn-primary text-xs">+ Duyệt vé/đoàn</Link>
           <Link href="/" target="_blank" className="btn-secondary text-xs flex items-center gap-1.5"><Globe className="w-3.5 h-3.5" /> Xem trang web</Link>
         </div>
       </div>

@@ -45,10 +45,14 @@ bao-tang-nextjs/
 │   ├── bai-viet/
 │   │   ├── page.tsx              # Danh sách bài viết
 │   │   └── [id]/page.tsx         # Chi tiết bài viết
+│   ├── tin-tuc/page.tsx          # Chuyên mục tin tức
+│   ├── giao-duc/page.tsx         # Chuyên mục giáo dục
 │   ├── su-kien/
 │   │   ├── page.tsx              # Danh sách sự kiện
 │   │   └── [id]/page.tsx         # Chi tiết sự kiện
 │   ├── lien-he/page.tsx          # Form liên hệ
+│   ├── dat-ve/page.tsx           # Đặt vé tham quan / đăng ký đoàn
+│   ├── lich-tham-quan-theo-doan/page.tsx # Lịch tham quan theo đoàn
 │   ├── dang-nhap/page.tsx        # Trang đăng nhập admin
 │   └── quan-tri/                 # Admin panel (protected bằng sessionStorage)
 │       ├── layout.tsx            # Admin layout + auth guard
@@ -56,6 +60,8 @@ bao-tang-nextjs/
 │       ├── hien-vat/page.tsx     # CRUD hiện vật + ImageUpload
 │       ├── bai-viet/page.tsx     # CRUD bài viết + ImageUpload + RichTextEditor
 │       ├── su-kien/page.tsx      # CRUD sự kiện
+│       ├── phong/page.tsx        # CRUD phòng / không gian bảo tàng
+│       ├── ve-doan/page.tsx      # CRUD booking vé và đăng ký đoàn
 │       └── tin-nhan/page.tsx     # Quản lý tin nhắn liên hệ
 ├── components/
 │   ├── Header.tsx                # Navigation header
@@ -69,6 +75,7 @@ bao-tang-nextjs/
 │   ├── Lightbox.tsx              # Fullscreen image lightbox (Esc to close)
 │   ├── ImageUpload.tsx           # Upload ảnh lên Supabase Storage
 │   ├── RichTextEditor.tsx        # Markdown toolbar editor (no deps)
+│   ├── TourBookingForm.tsx       # Form đặt vé/đăng ký đoàn + hiển thị mã đăng ký
 │   └── ImagePlaceholder.tsx      # Placeholder khi chưa có ảnh
 ├── lib/
 │   ├── types.ts                  # TypeScript interfaces (Artifact, Article, etc.)
@@ -86,7 +93,8 @@ bao-tang-nextjs/
 │   └── migrations/               # Migration files cho auto-deploy
 │       ├── 20240101000000_schema.sql
 │       ├── 20240101000001_seed.sql
-│       └── 20260415000000_view_count_and_storage.sql
+│       ├── 20260415000000_view_count_and_storage.sql
+│       └── 20260512000000_article_type_booking_features.sql
 └── .github/
     ├── workflows/migrate.yml     # GitHub Actions: auto-apply migrations
     └── copilot-instructions.md   # File này
@@ -112,6 +120,7 @@ image_url text, view_count integer DEFAULT 0, created_at timestamptz
 
 -- articles: Bài viết
 id uuid PK, title text, content text, summary text,
+article_type text CHECK('news','education'),
 status text CHECK('draft','published'), image_url text, created_at timestamptz
 
 -- events: Sự kiện
@@ -121,6 +130,22 @@ start_date date, end_date date, status text, image_url text, created_at timestam
 -- contact_messages: Tin nhắn liên hệ
 id uuid PK, full_name text, email text, phone text, message text,
 is_read boolean DEFAULT false, created_at timestamptz
+
+-- rooms: Phòng / không gian bảo tàng
+id uuid PK, name text, description text, location text,
+capacity integer, status text CHECK('draft','published'), created_at timestamptz
+
+-- group_schedules: Lịch tham quan theo đoàn
+id uuid PK, title text, description text, room_id uuid FK,
+visit_date date, start_time time, end_time time,
+max_group_size integer, contact_person text,
+status text CHECK('draft','published'), created_at timestamptz
+
+-- tour_bookings: Đặt vé tham quan / đăng ký đoàn
+id uuid PK, booking_type text CHECK('ticket','group'), full_name text,
+group_name text, email text, phone text, visit_date date, visit_time time,
+visitor_count integer, room_id uuid FK, notes text,
+status text CHECK('pending','confirmed','cancelled','completed'), created_at timestamptz
 ```
 
 ### RLS Policy

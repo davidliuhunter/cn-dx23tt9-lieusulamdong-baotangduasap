@@ -4,13 +4,15 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, Archive, ScrollText, CalendarCheck, Mail, TreePalm, Globe, LogOut } from 'lucide-react';
+import { LayoutDashboard, Archive, ScrollText, CalendarCheck, Mail, TreePalm, Globe, LogOut, Building2, Ticket } from 'lucide-react';
 
 const navItems = [
   { href: '/quan-tri', label: 'Tổng quan', icon: <LayoutDashboard className="w-4 h-4" /> },
   { href: '/quan-tri/hien-vat', label: 'Hiện vật', icon: <Archive className="w-4 h-4" /> },
   { href: '/quan-tri/bai-viet', label: 'Bài viết', icon: <ScrollText className="w-4 h-4" /> },
   { href: '/quan-tri/su-kien', label: 'Sự kiện', icon: <CalendarCheck className="w-4 h-4" /> },
+  { href: '/quan-tri/phong', label: 'Phòng', icon: <Building2 className="w-4 h-4" /> },
+  { href: '/quan-tri/ve-doan', label: 'Vé & Đoàn', icon: <Ticket className="w-4 h-4" /> },
   { href: '/quan-tri/tin-nhan', label: 'Tin nhắn', icon: <Mail className="w-4 h-4" /> },
 ];
 

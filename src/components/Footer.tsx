@@ -18,8 +18,13 @@ export default function Footer() {
           <ul className="space-y-2 text-sm">
             {(
               [
+                ['/gioi-thieu', 'Giới thiệu'],
+                ['/dat-ve', 'Đặt vé'],
+                ['/lich-tham-quan-theo-doan', 'Lịch đoàn'],
                 ['/hien-vat', 'Hiện vật'],
-                ['/bai-viet', 'Bài viết'],
+                ['/tin-tuc', 'Tin tức'],
+                ['/giao-duc', 'Giáo dục'],
+                ['/bai-viet', 'Tổng hợp bài viết'],
                 ['/su-kien', 'Sự kiện'],
                 ['/lien-he', 'Liên hệ'],
               ] as [string, string][]

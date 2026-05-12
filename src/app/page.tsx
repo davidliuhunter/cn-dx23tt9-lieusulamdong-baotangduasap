@@ -62,6 +62,18 @@ export default async function HomePage() {
 
           <div className="flex flex-wrap justify-center gap-4">
             <Link
+              href="/dat-ve"
+              className="px-8 py-3.5 bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold rounded-full transition-all shadow-xl hover:scale-105 hover:shadow-amber-400/30 text-sm md:text-base"
+            >
+              Đặt vé tham quan
+            </Link>
+            <Link
+              href="/gioi-thieu"
+              className="px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white border border-white/50 font-semibold rounded-full transition-all hover:scale-105 backdrop-blur-sm text-sm md:text-base"
+            >
+              Giới thiệu bảo tàng
+            </Link>
+            <Link
               href="/hien-vat"
               className="px-8 py-3.5 bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold rounded-full transition-all shadow-xl hover:scale-105 hover:shadow-amber-400/30 text-sm md:text-base"
             >

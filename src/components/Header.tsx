@@ -7,8 +7,12 @@ import { TreePalm, Menu, X } from 'lucide-react';
 
 const navLinks = [
   { href: '/', label: 'Trang chủ' },
+  { href: '/gioi-thieu', label: 'Giới thiệu' },
+  { href: '/dat-ve', label: 'Đặt vé' },
+  { href: '/lich-tham-quan-theo-doan', label: 'Lịch đoàn' },
   { href: '/hien-vat', label: 'Hiện vật' },
-  { href: '/bai-viet', label: 'Bài viết' },
+  { href: '/tin-tuc', label: 'Tin tức' },
+  { href: '/giao-duc', label: 'Giáo dục' },
   { href: '/su-kien', label: 'Sự kiện' },
   { href: '/lien-he', label: 'Liên hệ' },
 ];

@@ -7,8 +7,22 @@ import {
   mockCategories,
   mockCollections,
   mockContactMessages,
+  mockGroupSchedules,
+  mockRooms,
+  mockTourBookings,
 } from './mock-data';
-import type { Artifact, Article, EventItem, Category, Collection, ContactMessage } from './types';
+import type {
+  Artifact,
+  Article,
+  ArticleType,
+  EventItem,
+  Category,
+  Collection,
+  ContactMessage,
+  GroupSchedule,
+  MuseumRoom,
+  TourBooking,
+} from './types';
 
 function logSupabaseError(label: string, error: { message: string } | null) {
   if (error) {
@@ -76,6 +90,23 @@ export async function getPublishedArticles(): Promise<Article[]> {
     .order('created_at', { ascending: false });
 
   logSupabaseError('getPublishedArticles', error);
+  return (data as Article[]) ?? [];
+}
+
+export async function getPublishedArticlesByType(articleType: ArticleType): Promise<Article[]> {
+  noStore();
+  if (!isConfigured || !supabase) {
+    return mockArticles.filter((article) => article.status === 'published' && article.article_type === articleType);
+  }
+
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('status', 'published')
+    .eq('article_type', articleType)
+    .order('created_at', { ascending: false });
+
+  logSupabaseError('getPublishedArticlesByType', error);
   return (data as Article[]) ?? [];
 }
 
@@ -168,6 +199,85 @@ export async function getAllContactMessages(): Promise<ContactMessage[]> {
 
   logSupabaseError('getAllContactMessages', error);
   return (data as ContactMessage[]) ?? [];
+}
+
+export async function getRooms(): Promise<MuseumRoom[]> {
+  noStore();
+  if (!isConfigured || !supabase) {
+    return mockRooms;
+  }
+
+  const { data, error } = await supabase
+    .from('rooms')
+    .select('*')
+    .order('name');
+
+  logSupabaseError('getRooms', error);
+  return (data as MuseumRoom[]) ?? [];
+}
+
+export async function getAllGroupSchedules(): Promise<GroupSchedule[]> {
+  noStore();
+  if (!isConfigured || !supabase) {
+    return mockGroupSchedules;
+  }
+
+  const { data, error } = await supabase
+    .from('group_schedules')
+    .select('*, room:rooms(*)')
+    .order('visit_date', { ascending: true });
+
+  logSupabaseError('getAllGroupSchedules', error);
+  return (data as GroupSchedule[]) ?? [];
+}
+
+export async function getPublishedGroupSchedules(): Promise<GroupSchedule[]> {
+  noStore();
+  if (!isConfigured || !supabase) {
+    return mockGroupSchedules.filter((schedule) => schedule.status === 'published');
+  }
+
+  const { data, error } = await supabase
+    .from('group_schedules')
+    .select('*, room:rooms(*)')
+    .eq('status', 'published')
+    .order('visit_date', { ascending: true });
+
+  logSupabaseError('getPublishedGroupSchedules', error);
+  return (data as GroupSchedule[]) ?? [];
+}
+
+export async function getAllTourBookings(): Promise<TourBooking[]> {
+  noStore();
+  if (!isConfigured || !supabase) {
+    return mockTourBookings;
+  }
+
+  const { data, error } = await supabase
+    .from('tour_bookings')
+    .select('*, room:rooms(*)')
+    .order('created_at', { ascending: false });
+
+  logSupabaseError('getAllTourBookings', error);
+  return (data as TourBooking[]) ?? [];
+}
+
+export async function getTourBookingsByEmail(email: string): Promise<TourBooking[]> {
+  noStore();
+  if (!email.trim()) return [];
+
+  if (!isConfigured || !supabase) {
+    return mockTourBookings.filter((booking) => booking.email.toLowerCase() === email.trim().toLowerCase());
+  }
+
+  const { data, error } = await supabase
+    .from('tour_bookings')
+    .select('*, room:rooms(*)')
+    .ilike('email', email.trim())
+    .order('created_at', { ascending: false });
+
+  logSupabaseError('getTourBookingsByEmail', error);
+  return (data as TourBooking[]) ?? [];
 }
 
 export async function getTopViewedArtifacts(limit = 5): Promise<Artifact[]> {

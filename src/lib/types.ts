@@ -1,4 +1,5 @@
 export type PublishStatus = 'draft' | 'published';
+export type ArticleType = 'news' | 'education';
 
 export interface Category {
   id: string;
@@ -36,6 +37,7 @@ export interface Article {
   title: string;
   content: string;
   summary: string | null;
+  article_type: ArticleType;
   status: PublishStatus;
   image_url: string | null;
   created_at: string;
@@ -61,4 +63,49 @@ export interface ContactMessage {
   message: string;
   created_at: string;
   is_read: boolean;
+}
+
+export interface MuseumRoom {
+  id: string;
+  name: string;
+  description: string | null;
+  location: string | null;
+  capacity: number;
+  status: PublishStatus;
+  created_at: string;
+}
+
+export interface GroupSchedule {
+  id: string;
+  title: string;
+  description: string | null;
+  room_id: string | null;
+  visit_date: string | null;
+  start_time: string | null;
+  end_time: string | null;
+  max_group_size: number | null;
+  contact_person: string | null;
+  status: PublishStatus;
+  created_at: string;
+  room?: MuseumRoom;
+}
+
+export type TourBookingStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed';
+export type TourBookingType = 'ticket' | 'group';
+
+export interface TourBooking {
+  id: string;
+  booking_type: TourBookingType;
+  full_name: string;
+  group_name: string | null;
+  email: string;
+  phone: string | null;
+  visit_date: string | null;
+  visit_time: string | null;
+  visitor_count: number;
+  room_id: string | null;
+  notes: string | null;
+  status: TourBookingStatus;
+  created_at: string;
+  room?: MuseumRoom;
 }

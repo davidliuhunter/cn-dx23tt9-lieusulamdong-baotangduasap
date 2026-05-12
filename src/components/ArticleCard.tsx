@@ -10,6 +10,10 @@ function formatDate(dateStr: string) {
   });
 }
 
+function getArticleTypeLabel(type: 'news' | 'education') {
+  return type === 'news' ? 'Tin tức' : 'Giáo dục';
+}
+
 export default function ArticleCard({ article }: { article: Article }) {
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-sm card-hover border border-amber-100 flex flex-col md:flex-row">
@@ -22,6 +26,11 @@ export default function ArticleCard({ article }: { article: Article }) {
       </div>
       <div className="p-5 flex flex-col justify-between">
         <div>
+          <div className="mb-2">
+            <span className="inline-flex items-center text-[11px] font-semibold bg-amber-100 text-amber-800 px-2 py-1 rounded-full">
+              {getArticleTypeLabel(article.article_type)}
+            </span>
+          </div>
           <p className="text-xs text-amber-400 mb-1.5 font-medium">{formatDate(article.created_at)}</p>
           <h3 className="font-serif font-bold text-amber-950 text-lg leading-tight mb-2">
             {article.title}
