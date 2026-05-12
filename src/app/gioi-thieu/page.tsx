@@ -1,4 +1,4 @@
-import PublicLayout from '@/components/PublicLayout';
+import PublicLayout from '../../components/PublicLayout';
 import Link from 'next/link';
 
 const milestones = [

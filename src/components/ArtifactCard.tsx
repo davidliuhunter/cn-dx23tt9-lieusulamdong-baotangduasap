@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import type { Artifact } from '@/lib/types';
+import type { Artifact } from '../lib/types';
 import ImagePlaceholder from './ImagePlaceholder';
 import { ChevronRight } from 'lucide-react';
 

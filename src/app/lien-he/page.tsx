@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useRef, useState } from 'react';
-import PublicLayout from '@/components/PublicLayout';
-import { submitContact } from '@/lib/actions';
+import PublicLayout from '../../components/PublicLayout';
+import { submitContact } from '../../lib/actions';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 export default function ContactPage() {

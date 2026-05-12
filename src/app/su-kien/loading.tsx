@@ -1,4 +1,4 @@
-import PublicLayout from '@/components/PublicLayout';
+import PublicLayout from '../../components/PublicLayout';
 
 export default function EventsLoading() {
   return (

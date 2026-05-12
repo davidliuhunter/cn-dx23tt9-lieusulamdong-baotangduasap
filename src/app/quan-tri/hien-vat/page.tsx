@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAllArtifacts, getCollections } from '@/lib/data';
-import { saveArtifact, deleteArtifact } from '@/lib/actions';
-import ImageUpload from '@/components/ImageUpload';
-import type { Artifact, Collection } from '@/lib/types';
+import { getAllArtifacts, getCollections } from '../../../lib/data';
+import { saveArtifact, deleteArtifact } from '../../../lib/actions';
+import ImageUpload from '../../../components/ImageUpload';
+import type { Artifact, Collection } from '../../../lib/types';
 import { X } from 'lucide-react';
 
 const EMPTY: Partial<Artifact> = {};

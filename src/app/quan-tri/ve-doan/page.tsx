@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAllGroupSchedules, getAllTourBookings, getRooms } from '@/lib/data';
-import { deleteGroupSchedule, deleteTourBooking, saveGroupSchedule, saveTourBooking } from '@/lib/actions';
-import type { GroupSchedule, MuseumRoom, TourBooking } from '@/lib/types';
+import { getAllGroupSchedules, getAllTourBookings, getRooms } from '../../../lib/data';
+import { deleteGroupSchedule, deleteTourBooking, saveGroupSchedule, saveTourBooking } from '../../../lib/actions';
+import type { GroupSchedule, MuseumRoom, TourBooking } from '../../../lib/types';
 import { X } from 'lucide-react';
 
 const EMPTY: Partial<GroupSchedule> = {};

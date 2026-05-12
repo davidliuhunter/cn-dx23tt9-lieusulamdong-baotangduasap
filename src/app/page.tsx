@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import PublicLayout from '@/components/PublicLayout';
-import ArtifactCard from '@/components/ArtifactCard';
-import ArticleCard from '@/components/ArticleCard';
-import EventCard from '@/components/EventCard';
-import { getPublishedArtifacts, getPublishedArticles, getPublishedEvents } from '@/lib/data';
+import PublicLayout from '../components/PublicLayout';
+import ArtifactCard from '../components/ArtifactCard';
+import ArticleCard from '../components/ArticleCard';
+import EventCard from '../components/EventCard';
+import { getPublishedArtifacts, getPublishedArticles, getPublishedEvents } from '../lib/data';
 import { TreePalm, Landmark, FlaskConical, CalendarCheck, ChevronRight } from 'lucide-react';
 
 export default async function HomePage() {

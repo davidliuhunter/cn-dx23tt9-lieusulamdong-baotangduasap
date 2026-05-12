@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import PublicLayout from '@/components/PublicLayout';
-import ArtifactImageClient from '@/components/ArtifactImageClient';
-import { getArtifactById, getPublishedArtifacts } from '@/lib/data';
+import PublicLayout from '../../../components/PublicLayout';
+import ArtifactImageClient from '../../../components/ArtifactImageClient';
+import { getArtifactById, getPublishedArtifacts } from '../../../lib/data';
 import { ChevronLeft } from 'lucide-react';
 
 export async function generateStaticParams() {

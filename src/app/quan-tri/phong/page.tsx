@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getRooms } from '@/lib/data';
-import { deleteRoom, saveRoom } from '@/lib/actions';
-import type { MuseumRoom } from '@/lib/types';
+import { getRooms } from '../../../lib/data';
+import { deleteRoom, saveRoom } from '../../../lib/actions';
+import type { MuseumRoom } from '../../../lib/types';
 import { X } from 'lucide-react';
 
 const EMPTY: Partial<MuseumRoom> = {};

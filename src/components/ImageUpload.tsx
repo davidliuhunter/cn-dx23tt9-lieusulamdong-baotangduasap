@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { uploadImage } from '@/lib/actions';
+import { uploadImage } from '../lib/actions';
 
 interface Props {
   currentUrl?: string | null;

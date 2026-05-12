@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import ArtifactCard from '@/components/ArtifactCard';
-import type { Artifact, Collection } from '@/lib/types';
+import ArtifactCard from './ArtifactCard';
+import type { Artifact, Collection } from '../lib/types';
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PAGE_SIZE = 8;

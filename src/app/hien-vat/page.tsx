@@ -1,6 +1,6 @@
-import PublicLayout from '@/components/PublicLayout';
-import ArtifactsClient from '@/components/ArtifactsClient';
-import { getPublishedArtifacts, getCollections } from '@/lib/data';
+import PublicLayout from '../../components/PublicLayout';
+import ArtifactsClient from '../../components/ArtifactsClient';
+import { getPublishedArtifacts, getCollections } from '../../lib/data';
 
 export default async function ArtifactsPage() {
   const [artifacts, collections] = await Promise.all([

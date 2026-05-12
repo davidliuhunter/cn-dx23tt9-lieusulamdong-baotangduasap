@@ -1,6 +1,6 @@
-import PublicLayout from '@/components/PublicLayout';
-import TourBookingForm from '@/components/TourBookingForm';
-import { getRooms, getTourBookingsByEmail } from '@/lib/data';
+import PublicLayout from '../../components/PublicLayout';
+import TourBookingForm from '../../components/TourBookingForm';
+import { getRooms, getTourBookingsByEmail } from '../../lib/data';
 import { CircleCheckBig, CircleX, Clock3, Ticket } from 'lucide-react';
 
 function getStatusLabel(status: 'pending' | 'confirmed' | 'cancelled' | 'completed') {
