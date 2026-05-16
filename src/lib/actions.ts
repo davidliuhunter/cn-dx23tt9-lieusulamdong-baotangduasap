@@ -205,7 +205,20 @@ export async function saveRoom(data: Partial<MuseumRoom> & { id?: string }) {
   } else {
     ({ error } = await supabase.from('rooms').insert(rest));
   }
-  if (error) return { success: false, error: error.message };
+  if (error) {
+    const tableMissing =
+      error.message.includes("Could not find the table 'public.rooms' in the schema cache") ||
+      error.code === 'PGRST205';
+
+    if (tableMissing) {
+      return {
+        success: false,
+        error: 'Bảng public.rooms chưa tồn tại trên Supabase. Hãy chạy SQL trong supabase/001_schema.sql và migration rooms trước khi thêm phòng.',
+      };
+    }
+
+    return { success: false, error: error.message };
+  }
   revalidatePath('/quan-tri/phong');
   revalidatePath('/');
   return { success: true };

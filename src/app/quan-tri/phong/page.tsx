@@ -30,14 +30,32 @@ export default function AdminRoomsPage() {
     if (!editing) return;
     setSaving(true);
     const fd = new FormData(e.currentTarget);
-    const result = await saveRoom({
-      id: editing.id,
-      name: fd.get('name') as string,
-      description: (fd.get('description') as string) || null,
-      location: (fd.get('location') as string) || null,
-      capacity: Number(fd.get('capacity') || 0),
-      status: fd.get('status') as 'published' | 'draft',
-    });
+    const name = String(fd.get('name') || '').trim();
+    const description = String(fd.get('description') || '').trim() || null;
+    const location = String(fd.get('location') || '').trim() || null;
+    const status = (fd.get('status') as 'published' | 'draft') || 'draft';
+    const capacityRaw = Number(fd.get('capacity') || 0);
+    const capacity = Number.isFinite(capacityRaw) && capacityRaw >= 0 ? capacityRaw : 0;
+
+    if (!name) {
+      setSaving(false);
+      showToast('Lỗi: Tên phòng không được để trống.');
+      return;
+    }
+
+    const payload: Partial<MuseumRoom> & { id?: string } = {
+      name,
+      description,
+      location,
+      capacity,
+      status,
+    };
+
+    if (editing.id) {
+      payload.id = editing.id;
+    }
+
+    const result = await saveRoom(payload);
     setSaving(false);
     if (result.success) {
       showToast(editing.id ? 'Đã cập nhật phòng!' : 'Đã thêm phòng mới!');
@@ -53,6 +71,16 @@ export default function AdminRoomsPage() {
     await deleteRoom(id);
     showToast('Đã xóa phòng.');
     await reload();
+  }
+
+  async function handleEditRoom(roomId: string, updatedData: Partial<MuseumRoom>) {
+    const result = await saveRoom({ id: roomId, ...updatedData });
+    if (result.success) {
+      showToast('Phòng đã được cập nhật thành công!');
+      await reload();
+    } else {
+      showToast('Lỗi khi cập nhật phòng: ' + result.error);
+    }
   }
 
   return (
@@ -112,7 +140,7 @@ export default function AdminRoomsPage() {
               <h2 className="font-semibold text-gray-800">{editing.id ? 'Chỉnh sửa' : 'Phòng mới'}</h2>
               <button onClick={() => setEditing(null)} className="text-gray-400 hover:text-gray-700 p-0.5 rounded transition-colors"><X className="w-5 h-5" /></button>
             </div>
-            <form onSubmit={handleSave} className="space-y-3">
+            <form key={editing.id ?? 'new-room'} onSubmit={handleSave} className="space-y-3">
               <div>
                 <label className="form-label">Tên phòng *</label>
                 <input name="name" defaultValue={editing.name || ''} required className="form-input" />

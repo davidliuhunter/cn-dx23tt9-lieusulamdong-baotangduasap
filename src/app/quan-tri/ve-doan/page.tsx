@@ -19,6 +19,7 @@ export default function AdminBookingsPage() {
   const [rooms, setRooms] = useState<MuseumRoom[]>([]);
   const [editing, setEditing] = useState<Partial<GroupSchedule> | null>(null);
   const [saving, setSaving] = useState(false);
+  const [updatingBookingId, setUpdatingBookingId] = useState<string | null>(null);
   const [toast, setToast] = useState('');
 
   async function reload() {
@@ -67,13 +68,47 @@ export default function AdminBookingsPage() {
   }
 
   async function updateBookingStatus(id: string, status: TourBooking['status']) {
+    const previousBookings = bookings;
+    setUpdatingBookingId(id);
+    setBookings((current) => current.map((booking) => (booking.id === id ? { ...booking, status } : booking)));
     const result = await saveTourBooking({ id, status });
+    setUpdatingBookingId(null);
     if (result.success) {
       showToast('Đã cập nhật trạng thái đăng ký.');
-      await reload();
     } else {
+      setBookings(previousBookings);
       showToast('Lỗi: ' + result.error);
     }
+  }
+
+  async function updateBookingRoom(id: string, roomId: string) {
+    const normalizedRoomId = roomId || null;
+    const selectedRoom = rooms.find((room) => room.id === normalizedRoomId);
+    const previousBookings = bookings;
+
+    setUpdatingBookingId(id);
+    setBookings((current) =>
+      current.map((booking) =>
+        booking.id === id
+          ? {
+              ...booking,
+              room_id: normalizedRoomId,
+              room: selectedRoom,
+            }
+          : booking,
+      ),
+    );
+
+    const result = await saveTourBooking({ id, room_id: normalizedRoomId });
+    setUpdatingBookingId(null);
+
+    if (result.success) {
+      showToast('Đã cập nhật phòng cho đăng ký.');
+      return;
+    }
+
+    setBookings(previousBookings);
+    showToast('Lỗi: ' + result.error);
   }
 
   async function removeSchedule(id: string, title: string) {
@@ -159,10 +194,26 @@ export default function AdminBookingsPage() {
                   {formatDate(booking.visit_date)} {booking.visit_time ?? ''} · {booking.room?.name ?? 'Chưa gắn phòng'}
                 </div>
                 <div className="text-sm text-gray-600 mb-3">{booking.notes || 'Không có ghi chú'}</div>
+                <div className="mb-3">
+                  <label className="form-label">Phòng / không gian ưu tiên</label>
+                  <select
+                    value={booking.room_id ?? ''}
+                    onChange={(event) => updateBookingRoom(booking.id, event.target.value)}
+                    disabled={updatingBookingId === booking.id}
+                    className="form-input"
+                  >
+                    <option value="">Tự sắp xếp phù hợp</option>
+                    {rooms.map((room) => (
+                      <option key={room.id} value={room.id}>
+                        {room.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div className="flex flex-wrap gap-3 text-xs">
-                  <button onClick={() => updateBookingStatus(booking.id, 'confirmed')} className="text-emerald-600 hover:text-emerald-800 font-medium">Xác nhận</button>
-                  <button onClick={() => updateBookingStatus(booking.id, 'completed')} className="text-blue-600 hover:text-blue-800 font-medium">Hoàn tất</button>
-                  <button onClick={() => updateBookingStatus(booking.id, 'cancelled')} className="text-amber-600 hover:text-amber-800 font-medium">Hủy</button>
+                  <button onClick={() => updateBookingStatus(booking.id, 'confirmed')} disabled={updatingBookingId === booking.id} className="text-emerald-600 hover:text-emerald-800 font-medium disabled:opacity-50">Xác nhận</button>
+                  <button onClick={() => updateBookingStatus(booking.id, 'completed')} disabled={updatingBookingId === booking.id} className="text-blue-600 hover:text-blue-800 font-medium disabled:opacity-50">Hoàn tất</button>
+                  <button onClick={() => updateBookingStatus(booking.id, 'cancelled')} disabled={updatingBookingId === booking.id} className="text-amber-600 hover:text-amber-800 font-medium disabled:opacity-50">Hủy</button>
                   <button onClick={() => removeBooking(booking.id, booking.full_name)} className="text-red-500 hover:text-red-700 font-medium">Xóa</button>
                 </div>
               </div>
